@@ -1,0 +1,33 @@
+# Base image
+FROM ubuntu:latest
+
+# Adding a label to the image
+LABEL maintainer="yourname@example.com" \
+      description="This is a custom Docker image with basic installations"
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Install some packages (e.g., curl, vim) and create a directory
+RUN apt-get update && \
+    apt-get install -y curl vim && \
+    mkdir /app/logs && \
+    echo "Installation and setup complete!"
+
+# Add a new user and switch to that user
+RUN useradd -ms /bin/bash newuser
+USER newuser
+
+# Set a default command to run when the container starts
+CMD ["bash"]
+
+
+Explanation of Each Instruction:
+
+	1.	FROM ubuntu:latest: Specifies the base image (Ubuntu in this case).
+	2.	LABEL: Adds metadata (maintainer and description) to the image.
+	3.	WORKDIR /app: Sets the working directory inside the container to /app. If the directory doesn’t exist, it will be created.
+	4.	RUN: Executes commands to update package lists, install curl and vim, create a /app/logs directory,
+	 and prints a message indicating installation is complete.
+	5.	USER: Creates a new user named newuser and switches to that user.
+	6.	CMD ["bash"]: Sets the default command to start a Bash shell when the container is run.
